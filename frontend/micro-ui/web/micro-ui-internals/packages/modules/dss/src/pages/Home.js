@@ -7,7 +7,6 @@ import {
   Loader,
   MultiLink,
   Poll,
-  Rating,
   ShareIcon,
   WhatsappIcon,
 } from "@egovernments/digit-ui-react-components";
@@ -90,17 +89,9 @@ const Chart = ({ data, moduleLevel, overview = false }) => {
           <span style={{ fontSize: "14px", fontWeight: "400px", color: "white" }}>{t(`TIP_${data.name}`)}</span>
         </span>
       </div>
-      {data.name === "NATIONAL_DSS_OVERVIEW_CITIZEN_FEEDBACK_SCORE" ? 
-      <Rating
-          //id={response?.responseData?.data?.[0]?.headerValue}
-          currentRating={Math.round(response?.responseData?.data?.[0]?.headerValue * 10) / 10}
-          styles={{ width: "unset", marginBottom: 0 }}
-          starStyles={{ width: "25px" }}
-          toolTipText={t("COMMON_RATING_LABEL")}
-      />
-              :<p className="p2">
+      <p className="p2">
         {Digit.Utils.dss.formatter(response?.responseData?.data?.[0]?.headerValue, response?.responseData?.data?.[0]?.headerSymbol, "Lac", true, t)}
-      </p>}
+      </p>
       {response?.responseData?.data?.[0]?.insight?.value ? (
         <p className={`p3 ${response?.responseData?.data?.[0]?.insight?.indicator === "upper_green" ? "color-green" : "color-red"}`}>
           {response?.responseData?.data?.[0]?.insight?.indicator === "upper_green" ? ArrowUpwardElement("10px") : ArrowDownwardElement("10px")}
@@ -335,7 +326,7 @@ const Home = ({ stateCode }) => {
                 <MultiLink
                   className="multilink-block-wrapper"
                   label={t(`ES_DSS_SHARE`)}
-                  icon={<ShareIcon className="mrsm" />}
+                  icon={<ShareIcon className="mrsm" fill="#f18f5e" />}
                   showOptions={(e) => setShowOptions(e)}
                   onHeadClick={(e) => setShowOptions(e !== undefined ? e : !showOptions)}
                   displayOptions={showOptions}
@@ -343,7 +334,7 @@ const Home = ({ stateCode }) => {
                 />
               </div>
               <div className="mrsm" onClick={handlePrint}>
-                <DownloadIcon className="mrsm" />
+                <DownloadIcon className="mrsm" fill="#f18f5e"/>
                 {t(`ES_DSS_DOWNLOAD`)}
               </div>
             </div>
@@ -356,7 +347,7 @@ const Home = ({ stateCode }) => {
               <MultiLink
                 className="multilink-block-wrapper"
                 label={t(`ES_DSS_SHARE`)}
-                icon={<ShareIcon className="mrsm" />}
+                icon={<ShareIcon className="mrsm" fill="#f18f5e" />}
                 showOptions={(e) => setShowOptions(e)}
                 onHeadClick={(e) => setShowOptions(e !== undefined ? e : !showOptions)}
                 displayOptions={showOptions}
@@ -364,7 +355,7 @@ const Home = ({ stateCode }) => {
               />
             </div>
             <div onClick={handlePrint}>
-              <DownloadIcon />
+              <DownloadIcon fill="#f18f5e"/>
               {t(`ES_DSS_DOWNLOAD`)}
             </div>
           </div>
@@ -460,7 +451,7 @@ const Home = ({ stateCode }) => {
                           : { backgroundColor: colors[index].light, padding: "20px" }
                       }
                       key={index}
-                      onClick={() => routeTo(`/digit-ui/employee/dss/dashboard/${item.ref.url}`)}
+                      onClick={() => routeTo(`/${window?.contextPath}/employee/dss/dashboard/${item.ref.url}`)}
                     >
                       <div style={{ justifyContent: "space-between", display: "flex", flexDirection: "row" }}>
                         <div className="dss-card-header" style={{ marginBottom: "10px" }}>

@@ -50,12 +50,14 @@ const renderUnits = (t, denomination, symbol) => {
   }
 };
 
-const CustomAreaChart = ({ xDataKey = "name", yDataKey = getValue, data, setChartDenomination, moduleCode }) => {
+const CustomAreaChart = ({ xDataKey = "name", yDataKey = getValue, data, setChartDenomination }) => {
+  
   const lineLegend = {
     margin: "10px",
   };
   const { t } = useTranslation();
   const { id } = data;
+  const { variant } = data;
   const tenantId = Digit.ULBService.getCurrentTenantId();
   const { value } = useContext(FilterContext);
   const [totalCapacity, setTotalCapacity] = useState(0);
@@ -73,7 +75,7 @@ const CustomAreaChart = ({ xDataKey = "name", yDataKey = getValue, data, setChar
     tenantId,
     requestDate: { ...value?.requestDate, startDate: value?.range?.startDate?.getTime(), endDate: value?.range?.endDate?.getTime() },
     filters: value?.filters,
-    moduleLevel: value?.moduleLevel || moduleCode,
+    moduleLevel: value?.moduleLevel
   });
 
   useEffect(() => {
@@ -89,13 +91,7 @@ const CustomAreaChart = ({ xDataKey = "name", yDataKey = getValue, data, setChar
 
   useEffect(() => {
     if (response) {
-      const totalWaste = Digit.Utils.dss.formatter(
-        Math.round(response?.responseData?.data?.[0]?.plots[response?.responseData?.data?.[0]?.plots.length - 1]?.value),
-        "number",
-        value?.denomination,
-        true,
-        t
-      );
+      const totalWaste = Digit.Utils.dss.formatter(Math.round(response?.responseData?.data?.[0]?.plots[response?.responseData?.data?.[0]?.plots.length - 1]?.value), 'number', value?.denomination, true, t);
       setTotalWaste(totalWaste);
       setChartDenomination(response?.responseData?.data?.[0]?.headerSymbol);
     }
@@ -163,7 +159,11 @@ const CustomAreaChart = ({ xDataKey = "name", yDataKey = getValue, data, setChar
   const yAxistickFormatter = (value) => {
     if (typeof value === "string") {
       return value.replace("-", ", ");
-    } else if (typeof value === "number") return Digit.Utils.dss.formatter(value, "number", value?.denomination, true, t);
+    } else if (typeof value === "number") {
+      return variant === "fsmAreaPercentage"
+        ? Digit.Utils.dss.formatter(value, "percentage", value?.denomination, true, t)
+        : Digit.Utils.dss.formatter(value, "number", value?.denomination, true, t);
+    }
     return value;
   };
 
@@ -181,20 +181,12 @@ const CustomAreaChart = ({ xDataKey = "name", yDataKey = getValue, data, setChar
         }}
       >
         {payloadObj?.payload?.symbol?.toLowerCase() === "amount" && (
-          <p>{`${formattedLabel} : ${value?.denomination === "Unit" ? " ₹" : ""}${Digit.Utils.dss.formatter(
-            payloadObj?.value,
-            "number",
-            value?.denomination,
-            true,
-            t
-          )} ${value?.denomination !== "Unit" ? t(Digit.Utils.locale.getTransformedLocale(`ES_DSS_${value?.denomination}`)) : ""}`}</p>
+          <p>{`${formattedLabel} : ${value?.denomination === "Unit" ? " ₹" : ""}${Digit.Utils.dss.formatter( payloadObj?.value, 'number', value?.denomination, true, t )} ${
+            value?.denomination !== "Unit" ? t(Digit.Utils.locale.getTransformedLocale(`ES_DSS_${value?.denomination}`)) : ""
+          }`}</p>
         )}
-        {payloadObj?.payload?.symbol?.toLowerCase() === "percentage" && (
-          <p>{`${formattedLabel} : ${Digit.Utils.dss.formatter(payloadObj?.value, "number", value?.denomination, true, t)} %`}</p>
-        )}
-        {payloadObj?.payload?.symbol?.toLowerCase() === "number" && (
-          <p>{`${formattedLabel} : ${Digit.Utils.dss.formatter(payloadObj?.value, "number", value?.denomination, true, t)} `}</p>
-        )}
+        {payloadObj?.payload?.symbol?.toLowerCase() === "percentage" && <p>{`${formattedLabel} : ${Digit.Utils.dss.formatter(payloadObj?.value, 'number', value?.denomination, true, t)} %`}</p>}
+        {payloadObj?.payload?.symbol?.toLowerCase() === "number" && <p>{`${formattedLabel} : ${Digit.Utils.dss.formatter(payloadObj?.value, 'number', value?.denomination, true, t)} `}</p>}
         {!payloadObj?.payload?.symbol && <p>{`${formattedLabel} : ${payloadObj?.value} `}</p>}
       </div>
     );
@@ -218,9 +210,9 @@ const CustomAreaChart = ({ xDataKey = "name", yDataKey = getValue, data, setChar
     Object.keys(newPayload).map((key) => {
       newObjArray.push(
         `${key} -${prefix}${
-          payloadObj?.payload?.symbol?.toLowerCase() === "amount"
-            ? Digit.Utils.dss.formatter(getDenominatedValue(value?.denomination, newPayload?.[key]), "number", value?.denomination, true, t)
-            : Digit.Utils.dss.formatter(newPayload?.[key], "number", value?.denomination, true, t)
+          payloadObj?.payload?.symbol?.toLowerCase() === "amount" 
+          ? Digit.Utils.dss.formatter(getDenominatedValue(value?.denomination, newPayload?.[key]), 'number', value?.denomination, true, t)
+          : Digit.Utils.dss.formatter(newPayload?.[key], 'number', value?.denomination, true, t)
         } ${postfix}`
       );
     });
@@ -245,7 +237,13 @@ const CustomAreaChart = ({ xDataKey = "name", yDataKey = getValue, data, setChar
     return <Loader />;
   }
   return (
-    <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", height: "100%" }}>
+    <div
+      style={
+        variant === "fsmAreaPercentage"
+          ? { display: "flex", flexDirection: "column", height: "100%" }
+          : { display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", height: "100%" }
+      }
+    >
       {id === "fsmCapacityUtilization" && (
         <p>
           {t("DSS_FSM_TOTAL_SLUDGE_TREATED")} - {totalWaste} {t("DSS_KL")}
@@ -293,16 +291,15 @@ const CustomAreaChart = ({ xDataKey = "name", yDataKey = getValue, data, setChar
             margin={{
               top: 15,
               right: 5,
-              left: 20,
+              left: 5,
               bottom: 5,
             }}
           >
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
+            <XAxis dataKey="name" tick={{fontSize:"14px"}} />
             <YAxis
-              tickFormatter={yAxistickFormatter}
-              width={value?.denomination == "Unit" ? 100 : 60} //60 is by default
-              /*
+            tickFormatter={yAxistickFormatter}
+            /*
             Removed this custom yaxis label for all line charts 
             label={{
                 value: `${t(`DSS_Y_${response?.responseData?.data?.[0]?.headerName.replaceAll(" ", "_").toUpperCase()}`)} ${

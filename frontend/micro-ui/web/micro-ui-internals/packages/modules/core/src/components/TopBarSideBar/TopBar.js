@@ -23,7 +23,6 @@ const TopBar = ({
   handleUserDropdownSelection,
   logoUrl,
   showLanguageChange = true,
-  setSideBarScrollTop,
 }) => {
   const [profilePic, setProfilePic] = React.useState(null);
 
@@ -64,20 +63,19 @@ const TopBar = ({
   const updateSidebar = () => {
     if (!Digit.clikOusideFired) {
       toggleSidebar(true);
-      setSideBarScrollTop(true);
     } else {
       Digit.clikOusideFired = false;
     }
   };
 
   function onNotificationIconClick() {
-    history.push("/digit-ui/citizen/engagement/notifications");
+    history.push(`/${window?.contextPath}/citizen/engagement/notifications`);
   }
 
   const urlsToDisableNotificationIcon = (pathname) =>
     !!Digit.UserService?.getUser()?.access_token
       ? false
-      : ["/digit-ui/citizen/select-language", "/digit-ui/citizen/select-location"].includes(pathname);
+      : [`/${window?.contextPath}/citizen/select-language`, `/${window?.contextPath}/citizen/select-location`].includes(pathname);
 
   if (CITIZEN) {
     return (
@@ -136,7 +134,8 @@ const TopBar = ({
                   showArrow={true}
                   freeze={true}
                   style={mobileView ? { right: 0 } : {}}
-                  optionCardStyles={{ overflow: "revert" }}
+                  optionCardStyles={{ overflow: "revert",display:"table" }}
+                  topbarOptionsClassName={"topbarOptionsClassName"}
                   customSelector={
                     profilePic == null ? (
                       <TextToImg name={userDetails?.info?.name || userDetails?.info?.userInfo?.name || "Employee"} />

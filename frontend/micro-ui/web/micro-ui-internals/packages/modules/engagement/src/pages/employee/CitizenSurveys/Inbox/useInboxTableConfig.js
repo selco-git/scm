@@ -39,15 +39,12 @@ const useInboxTableConfig = ({ parentRoute, onPageSizeChange, formState, totalCo
                 Cell: ({ row }) => row.original?.answersCount ? GetCell(Number(row.original?.answersCount)) : "-"
             },
             {
-                Header: <div>{t("EVENTS_STATUS_LABEL")}<div className="tooltip" style={{marginLeft:"5px"}}>
+                Header: <div>{t("EVENTS_STATUS_LABEL")}<div className="tooltip">
                     <InfoBannerIcon fill="#0b0c0c" style />
                     <span className="tooltiptext" style={{
                         whiteSpace: "pre-wrap",
                         fontSize: "small",
                         wordWrap:"break-word",
-                        width:"120px",
-                        marginLeft:"15px",
-                        marginBottom:"-260px"
                         //overflow:"auto"
                     }}>
                         {`${t(`SURVEY_STATUS_TOOLTIP`)}`}

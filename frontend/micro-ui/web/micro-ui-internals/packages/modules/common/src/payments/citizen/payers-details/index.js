@@ -82,9 +82,9 @@ const SelectPaymentType = (props) => {
 
   const checkDisbaled = () => {
     if (isCCFEnabled?.isCitizenConsentFormEnabled && !isLoggedIn?.access_token) {
-      const data = paymentType?.code !== optionSecound?.code ? false : userInfo ? false : !canSubmit;
+      const isData = paymentType?.code !== optionSecound?.code ? false : userInfo ? false : !canSubmit;
       let isEnabled = false
-      if (!data && isCheckBox) isEnabled = false;
+      if (!isData && isCheckBox) isEnabled = false;
       else isEnabled = true;
       return isEnabled;
     } else {
@@ -138,13 +138,13 @@ const SelectPaymentType = (props) => {
 
   const onChangePayersName = (value) => {
     setPayersName(value);
-    value.length !== 0 && mobileNumberError != "CORE_COMMON_PHONENO_INVALIDMSG" && payersName != "" ? setCanSubmit(true) : setCanSubmit(false);
+    value.length !== 0 && mobileNumberError != "CORE_COMMON_PHONENO_INVALIDMSG" && payersName != "" && payersMobileNumber != "" ? setCanSubmit(true) : setCanSubmit(false);
   };
 
   const onSubmit = () => {
     if(wrkflow === "WNS")
     {
-      history.push(`/digit-ui/citizen/payment/collect/${businessService}/${consumerCode}?workflow=WNS&consumerCode=${stringReplaceAll(consumerCode, "+", "/")}`, {
+      history.push(`/${window?.contextPath}/citizen/payment/collect/${businessService}/${consumerCode}?workflow=WNS&consumerCode=${stringReplaceAll(consumerCode, "+", "/")}`, {
         paymentAmount: paymentAmt,
         tenantId: billDetails.tenantId,
         name: paymentType?.code !== optionSecound?.code && ConsumerName !== "undefined" ? ConsumerName : userInfo ? payersActiveName : payersName,
@@ -152,7 +152,7 @@ const SelectPaymentType = (props) => {
       });
     }
     else{
-    history.push(`/digit-ui/citizen/payment/collect/${businessService}/${consumerCode}`, {
+    history.push(`/${window?.contextPath}/citizen/payment/collect/${businessService}/${consumerCode}`, {
       paymentAmount: paymentAmt,
       tenantId: billDetails.tenantId,
       name: paymentType?.code !== optionSecound?.code ? bill?.payerName : userInfo ? payersActiveName : payersName,

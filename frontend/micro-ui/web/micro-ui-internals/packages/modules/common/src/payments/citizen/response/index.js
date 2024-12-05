@@ -20,9 +20,9 @@ export const SuccessfulPayment = (props)=>{
   const [printing, setPrinting] = useState(false);
   const [allowFetchBill, setallowFetchBill] = useState(false);
   const { businessService: business_service, consumerCode, tenantId } = useParams();
-  const { data: bpaData = {}, isLoading: isBpaSearchLoading, isSuccess: isBpaSuccess, error: bpaerror } = Digit.Hooks.obps.useOBPSSearch(
+  const { data: bpaData = {}, isLoading: isBpaSearchLoading, isSuccess: isBpaSuccess, error: bpaerror } = Digit?.Hooks?.obps?.useOBPSSearch(
     "", {}, tenantId, { applicationNo: consumerCode }, {}, {enabled:(window.location.href.includes("bpa") || window.location.href.includes("BPA"))}
-  );
+  )||{};
   
   const { isLoading, data, isError } = Digit.Hooks.usePaymentUpdate({ egId }, business_service, {
     retry: false,
@@ -102,19 +102,16 @@ export const SuccessfulPayment = (props)=>{
         />
         <CardText>{t("CS_PAYMENT_FAILURE_MESSAGE")}</CardText>
         {!(business_service?.includes("PT")) ? (
-          <Link to={`/digit-ui/citizen`}>
+          <Link to={`/${window?.contextPath}/citizen`}>
             <SubmitBar label={t("CORE_COMMON_GO_TO_HOME")} />
           </Link>
         ) : (
           <React.Fragment>
-            <Link to={(applicationNo && `/digit-ui/citizen/payment/my-bills/${business_service}/${applicationNo}`) || "/digit-ui/citizen"}>
+            <Link to={(applicationNo && `/${window?.contextPath}/citizen/payment/my-bills/${business_service}/${applicationNo}`) || `/${window?.contextPath}/citizen`}>
               <SubmitBar label={t("CS_PAYMENT_TRY_AGAIN")} />
             </Link>
-            {/* {business_service?.includes("PT") &&<div style={{marginTop:"10px"}}><Link to={`/digit-ui/citizen/feedback?redirectedFrom=${"digit-ui/citizen/payment/success"}&propertyId=${consumerCode? consumerCode : ""}&acknowldgementNumber=${egId ? egId : ""}&tenantId=${tenantId}&creationReason=${business_service?.split(".")?.[1]}`}>
-              <SubmitBar label={t("CS_REVIEW_AND_FEEDBACK")} />
-            </Link></div>} */}
             <div className="link" style={isMobile ? { marginTop: "8px", width: "100%", textAlign: "center" } : { marginTop: "8px" }}>
-              <Link to={`/digit-ui/citizen`}>{t("CORE_COMMON_GO_TO_HOME")}</Link>
+              <Link to={`/${window?.contextPath}/citizen`}>{t("CORE_COMMON_GO_TO_HOME")}</Link>
             </div>
           </React.Fragment>
         )}
@@ -391,7 +388,7 @@ export const SuccessfulPayment = (props)=>{
           </div>
         ) : null}
       </div>
-      {business_service?.includes("PT") &&<div style={{marginTop:"10px"}}><Link to={`/digit-ui/citizen/feedback?redirectedFrom=${"digit-ui/citizen/payment/success"}&propertyId=${consumerCode? consumerCode : ""}&acknowldgementNumber=${egId ? egId : ""}&tenantId=${tenantId}&creationReason=${business_service?.split(".")?.[1]}`}>
+      {business_service?.includes("PT") &&<div style={{marginTop:"10px"}}><Link to={`/${window?.contextPath}/citizen/feedback?redirectedFrom=${`/${window?.contextPath}/citizen/payment/success`}&propertyId=${consumerCode? consumerCode : ""}&acknowldgementNumber=${egId ? egId : ""}&tenantId=${tenantId}&creationReason=${business_service?.split(".")?.[1]}`}>
           <SubmitBar label={t("CS_REVIEW_AND_FEEDBACK")} />
       </Link></div>}
       {business_service?.includes("PT") ? (
@@ -402,11 +399,11 @@ export const SuccessfulPayment = (props)=>{
       {!(business_service == "TL") || !(business_service?.includes("PT")) && <SubmitBar onSubmit={printReciept} label={t("COMMON_DOWNLOAD_RECEIPT")} />}
       {!(business_service == "TL") || !(business_service?.includes("PT")) && (
         <div className="link" style={isMobile ? { marginTop: "8px", width: "100%", textAlign: "center" } : { marginTop: "8px" }}>
-          <Link to={`/digit-ui/citizen`}>{t("CORE_COMMON_GO_TO_HOME")}</Link>
+          <Link to={`/${window?.contextPath}/citizen`}>{t("CORE_COMMON_GO_TO_HOME")}</Link>
         </div>
       )}
       {business_service == "TL" && (
-        <Link to={`/digit-ui/citizen`}>
+        <Link to={`/${window?.contextPath}/citizen`}>
           <SubmitBar label={t("CORE_COMMON_GO_TO_HOME")} />
         </Link>
       )}

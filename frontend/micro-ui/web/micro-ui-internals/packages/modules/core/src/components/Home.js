@@ -34,7 +34,7 @@ export const processLinkData = (newData, code, t) => {
     const roleBasedLoginRoutes = [
       {
         role: "FSM_DSO",
-        from: "/digit-ui/citizen/fsm/dso-dashboard",
+        from: `/${window?.contextPath}/citizen/fsm/dso-dashboard`,
         dashoardLink: "CS_LINK_DSO_DASHBOARD",
         loginLink: "CS_LINK_LOGIN_DSO",
       },
@@ -48,7 +48,7 @@ export const processLinkData = (newData, code, t) => {
         });
       else
         newObj?.links?.push({
-          link: `/digit-ui/citizen/login`,
+          link: `/${window?.contextPath}/citizen/login`,
           state: { role: "FSM_DSO", from },
           i18nKey: t(loginLink),
         });
@@ -91,7 +91,7 @@ const CitizenHome = ({ modules, getCitizenMenu, fetchedCitizen, isLoading }) => 
   return (
     <React.Fragment>
       <div className="citizen-all-services-wrapper">
-        <BackButton />
+        {location.pathname.includes("sanitation-ui/citizen/all-services") ? null : <BackButton />}
         <div className="citizenAllServiceGrid">
           {moduleArray
             .filter((mod) => mod)
@@ -127,7 +127,6 @@ const CitizenHome = ({ modules, getCitizenMenu, fetchedCitizen, isLoading }) => 
 };
 
 const EmployeeHome = ({ modules }) => {
-  if(window.Digit.SessionStorage.get("PT_CREATE_EMP_TRADE_NEW_FORM")) window.Digit.SessionStorage.set("PT_CREATE_EMP_TRADE_NEW_FORM",{})
   return (
     <div className="employee-app-container">
       <div className="ground-container moduleCardWrapper gridModuleWrapper">

@@ -55,7 +55,6 @@ const CustomBarChart = ({
   data,
   title,
   setChartDenomination,
-  moduleCode,
 }) => {
   const { id } = data;
   const { t } = useTranslation();
@@ -69,7 +68,7 @@ const CustomBarChart = ({
     tenantId,
     requestDate: { ...value?.requestDate, startDate: value?.range?.startDate?.getTime(), endDate: value?.range?.endDate?.getTime() },
     filters: value?.filters,
-    moduleLevel: value?.moduleLevel || moduleCode,
+    moduleLevel: value?.moduleLevel
   });
   const chartData = useMemo(() => {
     if (!response) return null;
@@ -94,7 +93,7 @@ const CustomBarChart = ({
 
   const goToDrillDownCharts = () => {
     history.push(
-      `/digit-ui/employee/dss/drilldown?chart=${response?.responseData?.visualizationCode}&ulb=${
+      `/${window?.contextPath}/employee/dss/drilldown?chart=${response?.responseData?.visualizationCode}&ulb=${
         value?.filters?.tenantId
       }&title=${title}&fromModule=${Digit.Utils.dss.getCurrentModuleName()}&type=performing-metric&fillColor=${fillColor}&isNational=${
         checkCurrentScreen() ? "YES" : "NO"
