@@ -31,6 +31,7 @@ import DisplayPhotos from "./atoms/DisplayPhotos";
 import Dropdown from "./atoms/Dropdown";
 import EllipsisMenu from "./atoms/EllipsisMenu";
 import EmployeeAppContainer from "./atoms/EmployeeAppContainer";
+import { FormComposerNew } from "./hoc/FormComposerNew";
 import { EmployeeModuleCard, ModuleCardFullWidth } from "./atoms/EmployeeModuleCard";
 import GreyOutText from "./atoms/GreyOutText";
 import Hamburger from "./atoms/Hamburger";
@@ -346,6 +347,7 @@ export {
   NotificationBell,
   ImageIcon,
   OBPSIconSolidBg,
+  FormComposerNew,
   // Molecule
   InputCard,
   FormStep,

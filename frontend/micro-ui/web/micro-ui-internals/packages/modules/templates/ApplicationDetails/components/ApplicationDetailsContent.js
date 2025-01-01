@@ -296,7 +296,7 @@ console.log("appl", applicationDetails)
                           window.location.href.includes("tl") || window.location.href.includes("ws") ? (
                             <div style={{ width: "200%" }}>
                               <Link to={value?.to}>
-                                <span className="link" style={{ color: "#a82227" }}>
+                                <span className="link" style={{ color: "#23316b" }}>
                                   {t(value?.title)}
                                 </span>
                               </Link>
@@ -310,7 +310,7 @@ console.log("appl", applicationDetails)
                         text={
                           <div>
                             <Link to={value?.to}>
-                              <span className="link" style={{ color: "#a82227" }}>
+                              <span className="link" style={{ color: "#23316b" }}>
                                 {value?.value}
                               </span>
                             </Link>
@@ -416,7 +416,7 @@ console.log("appl", applicationDetails)
           {detail?.additionalDetails?.redirectUrl && (
             <div style={{ fontSize: "16px", lineHeight: "24px", fontWeight: "400", padding: "10px 0px" }}>
               <Link to={detail?.additionalDetails?.redirectUrl?.url}>
-                <span className="link" style={{ color: "#a82227" }}>
+                <span className="link" style={{ color: "#23316b" }}>
                   {detail?.additionalDetails?.redirectUrl?.title}
                 </span>
               </Link>

@@ -595,7 +595,7 @@ const PTApplicationDetails = () => {
           />
         )}
         </Card>
-        {/* <LinkButton style={{marginLeft:"5%",color:"#a82227"}} label={t("CS_RATE_US")} onClick={() => setpopup(true)} /> */}
+        {/* <LinkButton style={{marginLeft:"5%",color:"#23316b"}} label={t("CS_RATE_US")} onClick={() => setpopup(true)} /> */}
         {/* {popup && (<PopUp>
           <div style={{margin:"0 auto", top:"15%", position:"relative"}}>
           <PTCitizenFeedback popup={true} onClose={setpopup} setShowToast={setShowToast} data={data}/>

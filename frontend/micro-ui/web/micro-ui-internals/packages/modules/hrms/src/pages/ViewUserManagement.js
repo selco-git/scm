@@ -50,7 +50,7 @@ useEffect(() => {
         return;
       }
       // Fetch data if not in cache
-      const url = `https://cpgram-demo.ddns.net/egov-hrms/employees/_search?tenantId=${orgFilter}&roles=${typeFilter}&_=1734310245681`;
+      const url = `http://localhost:3001/egov-hrms/employees/_search?tenantId=${orgFilter}&roles=${typeFilter}&_=1734310245681`;
       const headers = {
         'Accept': 'application/json, text/plain, */*',
         'Content-Type': 'application/json;charset=UTF-8',

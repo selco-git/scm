@@ -1,4 +1,4 @@
-import { BackButton, Dropdown, FormComposer, Loader, Toast } from "@upyog/digit-ui-react-components";
+import { BackButton, Dropdown, FormComposerNew, Loader, Toast } from "@upyog/digit-ui-react-components";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
@@ -29,7 +29,9 @@ const Login = ({ config: propsConfig, t, isDisabled }) => {
 
   const history = useHistory();
   // const getUserType = () => "EMPLOYEE" || Digit.UserService.getType();
-
+  let   sourceUrl = "https://s3.ap-south-1.amazonaws.com/egov-qa-assets";
+  const pdfUrl = "https://pg-egov-assets.s3.ap-south-1.amazonaws.com/Upyog+Code+and+Copyright+License_v1.pdf";
+  
   useEffect(() => {
     if (!user) {
       return;
@@ -79,7 +81,7 @@ const Login = ({ config: propsConfig, t, isDisabled }) => {
       setShowToast(err?.response?.data?.error_description || "Invalid login credentials!");
       setTimeout(closeToast, 5000);
     }
-    setDisable(false);
+   // setDisable(false);
   };
 
   const closeToast = () => {
@@ -126,6 +128,7 @@ const Login = ({ config: propsConfig, t, isDisabled }) => {
                   props.onChange(d);
                 }}
                 t={t}
+                style={{borderRadius:"10px",marginTop:"5px",backgroundColor: "White",color:"black",height:"2.5rem !important"}}
                 {...customProps}
               />
             ),
@@ -139,12 +142,12 @@ const Login = ({ config: propsConfig, t, isDisabled }) => {
   return isLoading || isStoreLoading ? (
     <Loader />
   ) : (
-    <Background>
+    <Background style={{display:"flex", alignItems:"flex-start !important"}}>
       <div className="employeeBackbuttonAlign">
         <BackButton variant="white" style={{ borderBottom: "none" }} />
       </div>
 
-      <FormComposer
+      <FormComposerNew
         onSubmit={onLogin}
         isDisabled={isDisabled || disable}
         noBoxShadow
@@ -156,22 +159,42 @@ const Login = ({ config: propsConfig, t, isDisabled }) => {
         onSecondayActionClick={onForgotPassword}
         heading={propsConfig.texts.header}
         headingStyle={{ textAlign: "center" }}
-        cardStyle={{ margin: "auto", minWidth: "408px" }}
+        cardStyle={{ margin: "auto", minWidth: "408px",borderRadius:"20px" }}
         className="loginFormStyleEmployee"
-        buttonStyle={{ maxWidth: "100%", width: "100%" }}
+        buttonStyle={{ maxWidth: "100%", width: "100%" ,backgroundColor:"#5a1166",borderRadius:"20px"}}
       >
-        <Header />
-      </FormComposer>
+       <div style={{display:"flex",padding:"15px",justifyContent:"center"}}>
+          <div>
+      <img className="city" src="https://pgportal.gov.in/Images/iconHome/logo.png" alt="City Logo" />
+      </div>
+      <div>
+    {/* <span style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%",letterSpacing:"1px" }}>
+      <span style={{fontWeight:"bold", display:"flex", flexDirection:"column", marginLeft:"20px", color:"#0e338a", fontSize:"20px"}} className="logoText">
+        विदेश मंत्रालय
+        <span style={{fontWeight:"normal", color:"black", fontSize:"18px",display:"flex",flexDirection:"column"}} className="logoTextSubline"> MINISTRY OF <span style={{fontWeight:"bold"}}>EXTERNAL AFFAIRS</span></span>
+      </span>
+      </span> */}
+      </div>
+      </div>
+        {/* <Header /> */}
+      </FormComposerNew>
       {showToast && <Toast error={true} label={t(showToast)} onClose={closeToast} />}
-      <div className="employee-login-home-footer" style={{ backgroundColor: "unset" }}>
-        <img
-          alt="Powered by DIGIT"
-          src={window?.globalConfigs?.getConfig?.("DIGIT_FOOTER_BW")}
-          style={{ cursor: "pointer" }}
-          onClick={() => {
-            window.open(window?.globalConfigs?.getConfig?.("DIGIT_HOME_URL"), "_blank").focus();
-          }}
-        />{" "}
+      <div
+        style={{
+          backgroundColor: '#23316b',
+          color: 'white',
+          textAlign: 'center',
+          padding: '10px 0',
+          position: 'relative',
+          bottom: '0',
+          width: '100%',
+          marginTop: '130px',
+        }}
+      >
+        <footer>
+          <p>An initiative by Department of Administrative Reforms & Public Grievances (DARPG)</p>
+          <p>Disclaimer | Website Policies | Web Information Manager</p>
+        </footer>
       </div>
     </Background>
   );

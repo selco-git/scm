@@ -1,10 +1,13 @@
 import React, { useState } from "react";
+import { PrivateRoute } from "@upyog/digit-ui-react-components";
 import { Switch, Route, useRouteMatch, useLocation } from "react-router-dom";
 import { ActionBar, Menu, SubmitBar, BreadCrumb } from "@upyog/digit-ui-react-components";
 import { useTranslation } from "react-i18next";
 // import { ComplaintDetails } from "./ComplaintDetails";
 // import { CreateComplaint } from "./CreateComplaint";
 // import Inbox from "./Inbox";
+import AppealDashboard from "./AppealDashboard";
+import GrievanceDetailsPage from "./GrievanceDetailsPage"
 import { Employee } from "../../constants/Routes";
 // import Response from "./Response";
 
@@ -84,6 +87,8 @@ const Complaint = () => {
           <Route path={match.url + Employee.ComplaintDetails + ":id*"} component={() => <ComplaintDetails />} />
           <Route path={match.url + Employee.Inbox} component={Inbox} />
           <Route path={match.url + Employee.Response} component={Response} />
+          <PrivateRoute path={`${match.url}/appeal-dashboard`} component={() => <AppealDashboard />} />
+          <PrivateRoute path={`${match.url}/grievance-details/:grievanceId/:appealId`} component={() => <GrievanceDetailsPage />} />
           <Route path={match.url +Employee.EditApplication +":id*"} component={EditApplication} />
         </Switch>
       </div>

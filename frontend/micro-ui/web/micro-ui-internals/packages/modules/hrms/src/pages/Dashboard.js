@@ -24,7 +24,7 @@ const userName = JSON.parse(window.localStorage.getItem("Employee.user-info"))?.
     }
     console.log("userName",userName)
   return (
-    <div style={{ fontFamily: "Arial, sans-serif", margin: "20px" }}>
+    <div style={{ fontFamily: "Arial, sans-serif", margin: "20px",width:"100%",marginTop:"30px" }}>
       {/* Header */}
       <style>
         {
@@ -52,7 +52,7 @@ const userName = JSON.parse(window.localStorage.getItem("Employee.user-info"))?.
       </div>
 
       {/* Modules Section */}
-      <h3 style={{ marginTop: "20px" }}>Modules</h3>
+      <h3 style={{ marginTop: "20px", fontWeight:"bolder", fontSize:"x-large",marginBottom:"10px" }}>Modules</h3>
       <div style={{ display: "flex", gap: "20px" }}>
         {/* Module Cards */}
         <div
@@ -85,7 +85,7 @@ const userName = JSON.parse(window.localStorage.getItem("Employee.user-info"))?.
           onClick={onSubmitNodal}
         >
           <div style={{ fontSize: "30px", marginBottom: "10px" }}>💼</div>
-          <div>
+          <div style={{fontWeight:"bolder"}}>
             <strong>User Management</strong>
           </div>
         </div>

@@ -26,7 +26,12 @@ const PGRCard = () => {
       label: t("ES_PGR_NEW_COMPLAINT"),
       link: `/digit-ui/employee/pgr/complaint/create`,
       role: "CSR"
-    }
+    },
+    {
+      label: t("ES_PGR_APPEAL"),
+      link: `/digit-ui/employee/pgr/appeal-dashboard`,
+      role: "NAA"
+  },
   ]
 
   propsForCSR = propsForCSR.filter(link => link.role && Digit.Utils.didEmployeeHasRole(link.role) );

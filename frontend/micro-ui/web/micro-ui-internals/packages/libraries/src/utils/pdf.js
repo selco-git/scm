@@ -401,9 +401,9 @@ const createBodyContentBillAmend = (table,t) => {
       },
       fillColor:function(rowIndex,node,columnIndex){
         if(rowIndex === (table?.tableRows?.length)) {
-          return "#a82227"
+          return "#23316b"
         }
-        return (rowIndex % 2 === 0) ? "#a82227" : null; 
+        return (rowIndex % 2 === 0) ? "#23316b" : null; 
       },
       fillOpacity:function(rowIndex,node,columnIndex) {
         if (rowIndex === (table?.tableRows?.length)) {
@@ -493,7 +493,7 @@ const createHeaderBillAmend = (headerDetails, logo, tenantId,t) => {
             fontSize: 16,
             alignment: "right",
             margin: [-40, 10, 2, 0],
-            color: "#a82227"
+            color: "#23316b"
           }
         ],
         [
@@ -513,7 +513,7 @@ const createHeaderBillAmend = (headerDetails, logo, tenantId,t) => {
             fontSize: 16,
             margin: [0, -45, 10, 0],
             alignment: "right",
-            color: "#a82227"
+            color: "#23316b"
           }
         ],
         [
@@ -684,7 +684,7 @@ const createBodyContent = (details) => {
           table?.title?.map(t=>{ 
             return {
             text:t,
-            color: "#a82227",
+            color: "#23316b",
             style: "header",
             fontSize: 14,
             bold: true,

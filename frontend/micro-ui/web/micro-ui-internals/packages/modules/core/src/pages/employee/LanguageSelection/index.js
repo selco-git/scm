@@ -26,7 +26,7 @@ const LanguageSelection = () => {
     <Background>
       <Card className="bannerCard removeBottomMargin">
         <div className="bannerHeader">
-          <img className="bannerLogo" src={stateInfo?.logoUrl} alt="Digit" />
+          <img className="bannerLogo" src={"	https://i.postimg.cc/L6M206xQ/Emblem-of-India-svg.png"} alt="Digit" />
 
           <p>{t(`TENANT_TENANTS_${stateInfo?.code.toUpperCase()}`)}</p>
         </div>

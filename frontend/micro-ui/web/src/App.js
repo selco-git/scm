@@ -59,8 +59,7 @@ const enabledModules = [
   "TL",
   "Receipts",
   "CommonPT",
-  "Reports",
-  "Bills"
+  "Reports"
 ];
 window.Digit.ComponentRegistryService.setupRegistry({
   ...paymentConfigs,

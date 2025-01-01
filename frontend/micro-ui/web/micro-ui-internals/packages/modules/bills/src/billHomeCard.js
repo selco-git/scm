@@ -6,7 +6,7 @@ const BillsCard = () => {
   const { t } = useTranslation();
   const userRoles = Digit.SessionStorage.get("User")?.info?.roles;
   const isEmployee = userRoles.find((role) => role.code === "SUPERUSER");
-  if (!isEmployee) return null;
+  if (true) return null;
   const propsForModuleCard = {
     Icon: <CollectionIcon />,
     moduleName: t("ACTION_TEST_BILLGENIE"),

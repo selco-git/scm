@@ -45,7 +45,7 @@ console.log("departments",departments)
         setData(cache.current[cacheKey]);
         return;
       }
-      const url = `https://cpgram-demo.ddns.net/egov-hrms/employees/_search?tenantId=${tenantId}&roles=${typeFilter}&_=1734310245681`;
+      const url = `http://localhost:3001/egov-hrms/employees/_search?tenantId=${tenantId}&roles=${typeFilter}&_=1734310245681`;
 
       const headers = {
         'Accept': 'application/json, text/plain, */*',

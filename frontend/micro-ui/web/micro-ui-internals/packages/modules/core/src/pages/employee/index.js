@@ -62,7 +62,7 @@ const EmployeeApp = ({
             style={
               isUserProfile
                 ? { padding: 0, paddingTop: "80px", marginLeft: mobileView ? "" : "64px" }
-                : { "--banner-url": `url(${stateInfo?.bannerUrl})`, padding: "0px" }
+                : { backgroundImage: `url(https://i.postimg.cc/9MtJrFZ0/Untitled-design-1.png)`, backgroundSize:"cover" }
             }
           >
             <Switch>
