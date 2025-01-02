@@ -1,7 +1,9 @@
 package org.egov.pgr.service.appeal;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -10,8 +12,12 @@ import org.egov.common.contract.request.RequestInfo;
 import org.egov.pgr.config.PGRConfiguration;
 import org.egov.pgr.producer.Producer;
 import org.egov.pgr.repository.appeal.AppealRepository;
+import org.egov.pgr.service.PGRService;
 import org.egov.pgr.util.appeal.AppealUtils;
 import org.egov.pgr.validator.appeal.AppealValidator;
+import org.egov.pgr.web.models.RequestSearchCriteria;
+import org.egov.pgr.web.models.ServiceRequest;
+import org.egov.pgr.web.models.ServiceWrapper;
 import org.egov.pgr.web.models.appeal.Appeal;
 import org.egov.pgr.web.models.appeal.AppealRequest;
 import org.egov.pgr.web.models.appeal.AppealSearchCriteria;
@@ -23,6 +29,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
+
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -51,6 +59,9 @@ public class AppealService {
 
 	@Autowired
 	private AppealUtils util;
+	
+	@Autowired
+	private PGRService pgrService;
 
 	public Appeal createAppeal(@Valid AppealRequest request) {
 
@@ -61,7 +72,27 @@ public class AppealService {
 		assignRequestToRandomEmployee(request);
 
 		workflowService.updateWorkflowStatus(request);
+		
+		RequestSearchCriteria criteria = RequestSearchCriteria.builder().tenantId(request.getAppeal().getTenantId())
+				.serviceRequestId(request.getAppeal().getGrievanceId()).build();
 
+		List<ServiceWrapper> services = pgrService.search(request.getRequestInfo(), criteria);
+		
+		if(CollectionUtils.isEmpty(services)) {
+			throw new CustomException("create_error", "Appeal Creation error, no PGR Application Found !");
+		}
+		
+		org.egov.pgr.web.models.Service service = services.get(0).getService();
+		
+		ObjectNode additionalDetails = (ObjectNode) service.getAdditionalDetail() ;
+		
+		additionalDetails.put("Appeal_Id", request.getAppeal().getApplicationNumber());
+		
+		ServiceRequest pgrRequest = ServiceRequest.builder().requestInfo(request.getRequestInfo()).service(service)
+				.build();
+		
+		producer.push(request.getAppeal().getTenantId(), config.getUpdateTopic(), pgrRequest);
+		
 		producer.pushAppealRequest(request, config.getCreateAppealTopic());
 
 		return request.getAppeal();
